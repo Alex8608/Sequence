@@ -16,3 +16,13 @@ float Sequence::progression_n(int n)
 		return first_n * pow(d_q, n - 1);
 	}
 }
+float Sequence::sum_of_first_n_progression(int n)
+{
+	switch (type)
+	{
+	case ARITHMETIC:
+		return  (2 * first_n + d_q * (n - 1)) * n / 2;
+	case GEOMETRIC:
+		return first_n * (pow(d_q, n) - 1) / (d_q - 1);
+	}
+}
