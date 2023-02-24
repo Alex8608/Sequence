@@ -8,10 +8,10 @@ enum SequenceType
 class Sequence
 {
 	SequenceType type;
-	int first_n;
-	int d_q;
+	float first_n;
+	float d_q;
 	int n;
 public:
-	Sequence(SequenceType type, int first_n, int d_q);
-	int progression_n(int n);
+	Sequence(SequenceType type, float first_n, float d_q);
+	float progression_n(int n);
 };
