@@ -69,3 +69,10 @@ TEST(sequenceTests, SumStubTest4) {
     EXPECT_EQ(r4, 468);
     EXPECT_EQ(r5, 2343);
 }
+
+TEST(sequenceTests, SumStubTest5)
+{
+    Sequence mas[5] = { Sequence(ARITHMETIC, -23, 10), Sequence(ARITHMETIC, 20, -9), Sequence(GEOMETRIC, 16, 0.5), Sequence(GEOMETRIC, 3, 2), Sequence(ARITHMETIC, 3.2, 5.1) };
+    int r = Sequence::search(mas, 3);
+    EXPECT_EQ(r, 4);
+}
