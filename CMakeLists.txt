@@ -18,7 +18,7 @@ if(MSVC)
 endif()
 
 # Объявляем библиотеку
-add_library(sequence SHARED "include/sequence/sequence.h" "src/sequence.cc")
+add_library(sequence SHARED "include/sequence/sequence.h" "src/sequence.cc" "include/container/container.h" "src/container.cc")
 target_include_directories(sequence PUBLIC "include")
 
 # Подключаем googletest

@@ -1,5 +1,6 @@
 #include <sequence/sequence.h>
 #include <cmath>
+Sequence::Sequence() : type(ARITHMETIC), first_n(0), d_q(0) {}
 Sequence::Sequence(SequenceType type, float first_n, float d_q)
 {
 	this->type = type;
@@ -26,17 +27,15 @@ float Sequence::sum_of_first_n_progression(int n)
 		return first_n * (pow(d_q, n) - 1) / (d_q - 1);
 	}
 }
-int Sequence::search(Sequence mas[], int n)
+void Sequence::print()
 {
-	int max_i = 0;
-	for (int i = 1; i < 5; i++)
+	switch (type)
 	{
-		int max_sum = mas[max_i].sum_of_first_n_progression(n);
-		int current_sum = mas[i].sum_of_first_n_progression(n);
-		if (max_sum <= current_sum)
-		{
-			max_i = i;
-		}
+	case ARITHMETIC:
+		printf("ARITHMETIC %f %f\n", first_n, d_q);
+		break;
+	case GEOMETRIC:
+		printf("GEOMETRIC %f %f\n", first_n, d_q);
+		break;
 	}
-	return max_i;
 }
