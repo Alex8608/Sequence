@@ -11,6 +11,8 @@ public:
     Sequence operator[](int index) const;
     Sequence& operator[](int index);
     void add(Sequence item);
+    void add_index(Sequence item, int index);
+    void del_index(int index);
     void clear();
     int search(int n);
 };

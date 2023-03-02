@@ -4,14 +4,14 @@
 #include <sequence/sequence.h>
 
 using namespace std;
-    
+
 SequenceList::SequenceList(): _size(0) {}
 
 int SequenceList::size() const {
     return _size;
 }
-    
-Sequence SequenceList::operator[](int index) const {
+
+Sequence SequenceList::operator[](int index) const{
     if (index < 0 || _size <= index) {
         throw runtime_error("Index out of range.");
     }
@@ -31,11 +31,44 @@ void SequenceList::add(Sequence item) {
     if (_size == CAPACITY) {
         throw runtime_error("Full capacity reached.");
     }
-        
+
     _data[_size] = item;
     ++_size;
 }
-    
+
+void SequenceList::add_index(Sequence item, int index) {
+    if (_size == CAPACITY) {
+        throw runtime_error("Full capacity reached.");
+    }
+    if (index < 0 || _size <= index) {
+        throw runtime_error("Index out of range.");
+    }
+    int s = 0;
+    while (_size - index - s > 0)
+    {
+        _data[_size - s] = _data[_size - 1 - s];
+        ++s;
+    }
+    _data[index] = item;
+    ++_size;
+}
+
+void SequenceList::del_index(int index) {
+    if (_size == CAPACITY) {
+        throw runtime_error("Full capacity reached.");
+    }
+    if (index < 0 || _size <= index) {
+        throw runtime_error("Index out of range.");
+    }
+    int s = 0;
+    while (_size - index - 1 - s > 0)
+    {
+        _data[index + s] = _data[index + 1 + s];
+        ++s;
+    }
+    --_size;
+}
+
 void SequenceList::clear() {
     _size = 0;
 }

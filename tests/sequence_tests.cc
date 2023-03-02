@@ -82,6 +82,24 @@ TEST(sequenceTests, SumStubTest5)
     EXPECT_EQ(q, 5);
     Sequence qwe = mas[3];
     qwe.print();
+    mas[3] = Sequence(GEOMETRIC, 3, 3);
+    qwe = mas[3];
+    qwe.print();
+    mas[3].print();
     int r = mas.search(4);
     EXPECT_EQ(r, 3);
+    for (int i = 0; i < q; ++i)
+        mas[i].print();
+    mas.add_index(Sequence(GEOMETRIC, 2, 3), 3);
+    q = mas.size();
+    EXPECT_EQ(q, 6);
+    for (int i = 0; i < q; ++i)
+        mas[i].print();
+    mas.del_index(1);
+    q = mas.size();
+    EXPECT_EQ(q, 5);
+    for (int i = 0; i < q; ++i){
+        mas[i].print();
+    }
 };
+
