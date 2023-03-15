@@ -43,11 +43,11 @@ void SequenceList::add_index(Sequence item, int index) {
     if (index < 0 || _size <= index) {
         throw runtime_error("Index out of range.");
     }
-    int s = 0;
-    while (_size - index - s > 0)
+    int counter = 0;
+    while (_size - index - counter > 0)
     {
-        _data[_size - s] = _data[_size - 1 - s];
-        ++s;
+        _data[_size - counter] = _data[_size - 1 - counter];
+        ++counter;
     }
     _data[index] = item;
     ++_size;
@@ -60,11 +60,11 @@ void SequenceList::del_index(int index) {
     if (index < 0 || _size <= index) {
         throw runtime_error("Index out of range.");
     }
-    int s = 0;
-    while (_size - index - 1 - s > 0)
+    int counter = 0;
+    while (_size - index - 1 - counter > 0)
     {
-        _data[index + s] = _data[index + 1 + s];
-        ++s;
+        _data[index + counter] = _data[index + 1 + counter];
+        ++counter;
     }
     --_size;
 }

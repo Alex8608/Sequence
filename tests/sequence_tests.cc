@@ -78,27 +78,27 @@ TEST(sequenceTests, SumStubTest5)
     mas.add(Sequence(GEOMETRIC, 16, 0.5));
     mas.add(Sequence(GEOMETRIC, 3, 2));
     mas.add(Sequence(ARITHMETIC, 3.2, 5.1));
-    int q = mas.size();
-    EXPECT_EQ(q, 5);
-    Sequence qwe = mas[3];
-    qwe.print();
+    int size_of_mas = mas.size();
+    EXPECT_EQ(size_of_mas, 5);
+    Sequence item = mas[3];
+    item.print();
     mas[3] = Sequence(GEOMETRIC, 3, 3);
-    qwe = mas[3];
-    qwe.print();
+    item = mas[3];
+    item.print();
     mas[3].print();
     int r = mas.search(4);
     EXPECT_EQ(r, 3);
-    for (int i = 0; i < q; ++i)
+    for (int i = 0; i < size_of_mas; ++i)
         mas[i].print();
     mas.add_index(Sequence(GEOMETRIC, 2, 3), 3);
-    q = mas.size();
-    EXPECT_EQ(q, 6);
-    for (int i = 0; i < q; ++i)
+    size_of_mas = mas.size();
+    EXPECT_EQ(size_of_mas, 6);
+    for (int i = 0; i < size_of_mas; ++i)
         mas[i].print();
     mas.del_index(1);
-    q = mas.size();
-    EXPECT_EQ(q, 5);
-    for (int i = 0; i < q; ++i){
+    size_of_mas = mas.size();
+    EXPECT_EQ(size_of_mas, 5);
+    for (int i = 0; i < size_of_mas; ++i){
         mas[i].print();
     }
 };
