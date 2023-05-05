@@ -5,51 +5,69 @@
 using namespace SEQUENCE;
 using namespace std;
 
-SequenceList::SequenceList(): _size(0) {}
+SequenceList::SequenceList() :_sequences(nullptr), _size(0) {}
 
-int SequenceList::size() const {
+SequenceList::SequenceList(const SequenceList& list) :_sequences(new Sequence* [list._size]), _size(list._size){
+    for (int i = 0; i < _size; ++i) {
+        _sequences[i] = new Sequence(*list._sequences[i]);
+    }
+}
+
+int SequenceList::size() const{
     return _size;
 }
 
-Sequence SequenceList::operator[](int index) const{
-    if (index < 0 || _size <= index) {
-        throw runtime_error("Index out of range.");
-    }
-        
-    return _data[index];
+void SequenceList::swap(SequenceList& list) noexcept {
+    std::swap(this->_sequences, list._sequences);
+    std::swap(this->_size, list._size);
 }
-    
-Sequence& SequenceList::operator[](int index) {
-    if (index < 0 || _size <= index) {
-        throw runtime_error("Index out of range.");
-    }
-        
-    return _data[index];
-}
-    
-void SequenceList::add(const Sequence item) {
-    if (_size == CAPACITY) {
-        throw runtime_error("Full capacity reached.");
-    }
 
-    _data[_size] = item;
+SequenceList& SequenceList::operator=(const SequenceList& list) {
+    SequenceList copy(list);
+    copy.swap(*this);
+    return *this;
+}
+
+SequenceList::~SequenceList() {
+    for (int i = 0; i < _size; ++i) {
+        delete _sequences[i];
+    }
+    delete[] _sequences;
+}
+
+SequencePtr SequenceList::operator[](const int index) const{
+    if (index < 0 || _size <= index) {
+        throw runtime_error("[SequenceList::operator[]] Index out of range.");
+    }
+        
+    return _sequences[index];
+}
+
+void SequenceList::add(SequencePtr const item) {
+    auto new_sequences = new SequencePtr[_size + 1];
+    for (int i = 0; i < _size; ++i) {
+        new_sequences[i] = _sequences[i];
+    }
+    new_sequences[_size] = item;
+    delete[] _sequences;
+    _sequences = new_sequences;
     ++_size;
 }
 
-void SequenceList::add_index(Sequence item, int index) {
-    if (_size == CAPACITY) {
-        throw runtime_error("Full capacity reached.");
-    }
+void SequenceList::insert_index(SequencePtr const item, int index) {
     if (index < 0 || _size <= index) {
         throw runtime_error("Index out of range.");
     }
-    int counter = 0;
-    while (_size - index - counter > 0)
-    {
-        _data[_size - counter] = _data[_size - 1 - counter];
-        ++counter;
+    auto new_sequences = new SequencePtr[_size + 1];
+    for (int i = 0; i < index; ++i) {
+        new_sequences[i] = _sequences[i];
     }
-    _data[index] = item;
+    new_sequences[index] = item;
+    for (int i = index+1; i < _size+1; ++i) {
+        new_sequences[i] = _sequences[i-1];
+    }
+    delete[] _sequences;
+    _sequences = new_sequences;
     ++_size;
 }
 
@@ -60,32 +78,31 @@ void SequenceList::del_index(int index) {
     if (index < 0 || _size <= index) {
         throw runtime_error("Index out of range.");
     }
-    int counter = 0;
-    while (_size - index - 1 - counter > 0)
-    {
-        _data[index + counter] = _data[index + 1 + counter];
-        ++counter;
+    auto new_sequences = new SequencePtr[_size - 1];
+    for (int i = 0; i < index; ++i) {
+        new_sequences[i] = _sequences[i];
     }
+    for (int i = index; i < _size - 1; ++i) {
+        new_sequences[i] = _sequences[i + 1];
+    }
+    delete[] _sequences;
+    _sequences = new_sequences;
     --_size;
 }
 
-void SequenceList::clear() {
-    _size = 0;
-}
-
-int SequenceList::search(int n) const{
+int SEQUENCE::search(const SequenceList& sequences, const int n) {
     if (n < 1) {
         throw runtime_error("n < 1");
     }
     int max_i = -1;
-    for (int i = 0; i < _size; i++)
+    for (int i = 0; i < sequences.size(); i++)
     {
         int max_sum;
         if (max_i != -1) {
-            max_sum = _data[max_i].sum_of_first_n_progression(n);
+            max_sum = sequences[max_i]->sum_of_first_n_progression(n);
         }
-        else max_sum = _data[0].sum_of_first_n_progression(n);
-        int current_sum = _data[i].sum_of_first_n_progression(n);
+        else max_sum = sequences[0]->sum_of_first_n_progression(n);
+        int current_sum = sequences[i]->sum_of_first_n_progression(n);
         if (max_sum <= current_sum)
         {
             max_i = i;
