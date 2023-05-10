@@ -1,13 +1,14 @@
 #include <sequence/sequence.h>
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 using namespace SEQUENCE;
 using namespace std;
 
 Sequence::Sequence(SequenceType type, float first_n, float d_q) :type(type), first_n(first_n), d_q(d_q) {}
 
-SequenceType Sequence::get_type() const{
+SequenceType Sequence::get_type() const {
 	return type;
 }
 
@@ -85,10 +86,24 @@ void Sequence::print() const
 	switch (type)
 	{
 	case ARITHMETIC:
-		printf("ARITHMETIC %f %f\n", first_n, d_q);
+		cout << "(ARITHMETIC, " << first_n << ", " << d_q << ")" << endl;
 		break;
 	case GEOMETRIC:
-		printf("GEOMETRIC %f %f\n", first_n, d_q);
+		cout << "(GEOMETRIC, " << first_n << ", " << d_q << ")" << endl;
 		break;
 	}
+}
+
+std::ostream& SEQUENCE::operator<<(std::ostream& out, const Sequence& item)
+{
+	switch (item.get_type())
+	{
+	case ARITHMETIC:
+		out << "(ARITHMETIC, " << item.get_first_n() << ", " << item.get_d_q() << ")" << endl;
+		break;
+	case GEOMETRIC:
+		out << "(GEOMETRIC, " << item.get_first_n() << ", " << item.get_d_q() << ")" << endl;
+		break;
+	}
+	return out;
 }

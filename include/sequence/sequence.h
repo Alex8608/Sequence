@@ -1,5 +1,6 @@
 #pragma once
-
+#include <iostream>
+#include <cstdlib>
 namespace SEQUENCE
 {
 	const float EPSILON = 0.00001f;
@@ -20,7 +21,7 @@ namespace SEQUENCE
 		float d_q;
 		Sequence(SequenceType type, float first_n, float d_q);
 	public:
-		
+
 		SequenceType get_type() const;
 		float get_first_n() const;
 		float get_d_q() const;
@@ -31,8 +32,8 @@ namespace SEQUENCE
 		SequencePtr clone() const;
 		void print() const;
 		Sequence& operator=(const Sequence& copy);
+		friend std::ostream& operator<<(std::ostream& out, const Sequence& item);
 	};
-
 	bool operator==(const Sequence& lhs, const Sequence& rhs);
 	bool operator!=(const Sequence& lhs, const Sequence& rhs);
 

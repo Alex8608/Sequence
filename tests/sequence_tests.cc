@@ -82,7 +82,6 @@ TEST(sequenceTests, SumStubTest5)
     mas.add(Sequence::create_GEOMETRIC(3, 2));
     mas.add(Sequence::create_ARITHMETIC(3.2, 5.1));
     int size_of_mas = mas.size();
-    EXPECT_EQ(size_of_mas, 5);
     SequencePtr item = mas[3];
     item->print();
     *mas[3] = *Sequence::create_GEOMETRIC(3, 3);

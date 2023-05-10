@@ -7,13 +7,13 @@ using namespace std;
 
 SequenceList::SequenceList() :_sequences(nullptr), _size(0) {}
 
-SequenceList::SequenceList(const SequenceList& list) :_sequences(new Sequence* [list._size]), _size(list._size){
+SequenceList::SequenceList(const SequenceList& list) :_sequences(new Sequence* [list._size]), _size(list._size) {
     for (int i = 0; i < _size; ++i) {
         _sequences[i] = new Sequence(*list._sequences[i]);
     }
 }
 
-int SequenceList::size() const{
+int SequenceList::size() const {
     return _size;
 }
 
@@ -35,11 +35,11 @@ SequenceList::~SequenceList() {
     delete[] _sequences;
 }
 
-SequencePtr SequenceList::operator[](const int index) const{
+SequencePtr SequenceList::operator[](const int index) const {
     if (index < 0 || _size <= index) {
         throw runtime_error("[SequenceList::operator[]] Index out of range.");
     }
-        
+
     return _sequences[index];
 }
 
@@ -55,20 +55,20 @@ void SequenceList::add(SequencePtr const item) {
 }
 
 void SequenceList::insert_index(SequencePtr const item, int index) {
+    ++_size;
     if (index < 0 || _size <= index) {
         throw runtime_error("Index out of range.");
     }
-    auto new_sequences = new SequencePtr[_size + 1];
+    auto new_sequences = new SequencePtr[_size];
     for (int i = 0; i < index; ++i) {
         new_sequences[i] = _sequences[i];
     }
     new_sequences[index] = item;
-    for (int i = index+1; i < _size+1; ++i) {
-        new_sequences[i] = _sequences[i-1];
+    for (int i = index + 1; i < _size; ++i) {
+        new_sequences[i] = _sequences[i - 1];
     }
     delete[] _sequences;
     _sequences = new_sequences;
-    ++_size;
 }
 
 void SequenceList::del_index(int index) {
