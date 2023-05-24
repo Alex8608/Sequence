@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <sequence/sequence.h>
 using namespace SEQUENCE;
+using namespace std;
 TEST(sequenceTests, SumStubTest1) {
     // Arrange
     const auto s = AriSequence(3, 5);
@@ -69,37 +70,31 @@ TEST(sequenceTests, SumStubTest4) {
     EXPECT_EQ(r5, 2343);
 }
 
-/*TEST(sequenceTests, SumStubTest5)
+TEST(sequenceTests, SumStubTest5)
 {
     SequenceList mas;
-    mas.add(Sequence::create_ARITHMETIC(-23, 10));
-    mas.add(Sequence::create_ARITHMETIC(20, -9));
-    mas.add(Sequence::create_GEOMETRIC(16, 0.5));
-    mas.add(Sequence::create_GEOMETRIC(3, 2));
-    mas.add(Sequence::create_ARITHMETIC(3.2, 5.1));
+    mas.add(make_shared<AriSequence>(-23, 10));
+    mas.add(make_shared<AriSequence>(20, -9));
+    mas.add(make_shared<GeoSequence>(16, 0.5));
+    mas.add(make_shared<GeoSequence>(3, 2));
+    mas.add(make_shared<AriSequence>(3.2, 5.1));
     int size_of_mas = mas.size();
     SequencePtr item = mas[3];
-    item->print();
-    *mas[3] = *Sequence::create_GEOMETRIC(3, 3);
-    item->print();
-    mas[3]->print();
-    EXPECT_EQ(item->get_type(),GEOMETRIC);
-    EXPECT_EQ(item->get_first_n(), 3);
-    EXPECT_EQ(item->get_d_q(), 3);
+    item->print(cout);
     int r = search(mas, 4);
     EXPECT_EQ(r, 3);
     for (int i = 0; i < size_of_mas; ++i)
-        mas[i]->print();
-    mas.insert_index(Sequence::create_GEOMETRIC(2, 3), 3);
+        mas[i]->print(cout);
+    mas.insert_index(make_shared<GeoSequence>(2, 3), 3);
     size_of_mas = mas.size();
     EXPECT_EQ(size_of_mas, 6);
     for (int i = 0; i < size_of_mas; ++i)
-        mas[i]->print();
+        mas[i]->print(cout);
     mas.del_index(1);
     size_of_mas = mas.size();
     EXPECT_EQ(size_of_mas, 5);
     for (int i = 0; i < size_of_mas; ++i){
-        mas[i]->print();
+        mas[i]->print(cout);
     }
-};*/
+};
 

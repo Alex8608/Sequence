@@ -18,7 +18,7 @@ int get_key()
 void print_current(int i)
 {
 	system("cls");
-	printf("\n\"%s\"\n", data1[i]);
+	cout << endl << data1[i] << endl;
 }
 
 SequencePtr seq()
@@ -36,10 +36,10 @@ SequencePtr seq()
 	cin >> d_q;
 	switch (type) {
 	case(1):
-		return(Sequence::create_ARITHMETIC(first_n, d_q));
+		return(make_shared<AriSequence>(first_n, d_q));
 		break;
 	case(2):
-		return(Sequence::create_GEOMETRIC(first_n, d_q));
+		return(make_shared<GeoSequence>(first_n, d_q));
 		break;
 	}
 }
@@ -64,7 +64,7 @@ void out(SequenceList mas)
 {
 	system("cls");
 	for (int i = 0; i < mas.size(); ++i) {
-		cout << *mas[i];
+		mas[i]->print(cout);
 	}
 	getchar();
 }
@@ -80,7 +80,7 @@ void search_crit(SequenceList mas)
 		cout << "¬ведите корректное n: ";
 		cin >> n;
 	}
-	cout << *mas[search(mas, n)];
+	mas[search(mas, n)]->print(cout);
 	getchar();
 	getchar();
 }
