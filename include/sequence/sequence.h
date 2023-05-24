@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <cstdlib>
+#include <memory>
+#include <vector>
 namespace SEQUENCE
 {
 	const float EPSILON = 0.00001f;
@@ -12,37 +14,58 @@ namespace SEQUENCE
 	};
 
 	class Sequence;
-	using SequencePtr = Sequence*;
+	using SequencePtr = std::shared_ptr<Sequence>;
 
 	class Sequence
 	{
-		SequenceType type;
+	public:
+		virtual float progression_n(int n) const = 0;
+		virtual float sum_of_first_n_progression(int n) const = 0;
+		virtual SequencePtr clone() const = 0;
+		virtual bool equals(SequencePtr other) const = 0;
+		virtual ~Sequence() = default;
+		virtual void print(std::ostream& stream) const = 0;
+	protected:
+		Sequence() = default;
+		Sequence(const Sequence&) = default;
+		Sequence& operator=(const Sequence&) = default;
+	};
+	//bool operator==(const Sequence& lhs, const Sequence& rhs);
+	//bool operator!=(const Sequence& lhs, const Sequence& rhs);
+
+	class AriSequence : public Sequence {
 		float first_n;
 		float d_q;
-		Sequence(SequenceType type, float first_n, float d_q);
 	public:
-
-		SequenceType get_type() const;
+		AriSequence(float first_n, float d_q);
 		float get_first_n() const;
 		float get_d_q() const;
-		static SequencePtr create_ARITHMETIC(float first_n, float d_q);
-		static SequencePtr create_GEOMETRIC(float first_n, float d_q);
-		float progression_n(int n) const;
-		float sum_of_first_n_progression(int n) const;
-		SequencePtr clone() const;
-		void print() const;
-		Sequence& operator=(const Sequence& copy);
-		friend std::ostream& operator<<(std::ostream& out, const Sequence& item);
+		float progression_n(int n) const override;
+		float sum_of_first_n_progression(int n) const override;
+		SequencePtr clone() const override;
+		bool equals(SequencePtr other) const override;
+		void print(std::ostream& stream) const override;
 	};
-	bool operator==(const Sequence& lhs, const Sequence& rhs);
-	bool operator!=(const Sequence& lhs, const Sequence& rhs);
+
+	class GeoSequence : public Sequence {
+		float first_n;
+		float d_q;
+	public:
+		GeoSequence(float first_n, float d_q);
+		float get_first_n() const;
+		float get_d_q() const;
+		float progression_n(int n) const override;
+		float sum_of_first_n_progression(int n) const override;
+		SequencePtr clone() const override;
+		bool equals(SequencePtr other) const override;
+		void print(std::ostream& stream) const override;
+	};
 
 	class SequenceList
 	{
-		SequencePtr* _sequences;
-		size_t _size;
+		std::vector<SequencePtr> _sequences;
 	public:
-		SequenceList();
+		SequenceList() = default;
 		SequenceList(const SequenceList& list);
 		int size() const;
 		void swap(SequenceList& list) noexcept;
@@ -52,7 +75,6 @@ namespace SEQUENCE
 		void add(SequencePtr item);
 		void insert_index(SequencePtr item, int index);
 		void del_index(int index);
-		~SequenceList();
 	};
 
 	int search(const SequenceList& list, const int n);
